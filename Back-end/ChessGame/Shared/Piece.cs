@@ -3,7 +3,7 @@ using ChessGame.Domain.Structs;
 
 namespace ChessGame.Domain.Shared
 {
-    public class Piece
+    public abstract class Piece
     {
         public Position Position { get; private set; }
         public EColor Color { get; private set; }
@@ -15,7 +15,7 @@ namespace ChessGame.Domain.Shared
         }
 
         public void Move(Position position)
-        {
+        {            
             Position = position;
         }
     }
