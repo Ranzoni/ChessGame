@@ -4,13 +4,13 @@ namespace ChessGame.Domain.Structs
 {
     public struct Position
     {
-        private readonly ELine _line;
         private readonly EColumn _column;
+        private readonly ELine _line;
 
-        public Position(ELine line, EColumn column)
+        public Position(EColumn column, ELine line)
         {
-            _line = line;
             _column = column;
+            _line = line;
         }
 
         public bool Equals(Position position)

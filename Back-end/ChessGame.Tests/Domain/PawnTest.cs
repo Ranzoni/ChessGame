@@ -1,6 +1,7 @@
 ﻿using ChessGame.Domain.Entities;
 using ChessGame.Domain.Enums;
 using ChessGame.Domain.Structs;
+using ChessGame.Tests.Builder;
 using Xunit;
 
 namespace ChessGame.Tests.Domain
@@ -11,16 +12,15 @@ namespace ChessGame.Tests.Domain
 
         public PawnTest()
         {
-            var position = new Position(ELine.Two, EColumn.B);
-            _pawn = new Pawn(position, EColor.White);
+            _pawn = PawnBuilder.New().Build();
         }
 
         [Theory]
-        [InlineData(ELine.Three, EColumn.C)]
-        [InlineData(ELine.Three, EColumn.A)]
-        public void ShouldMovePawn(ELine line, EColumn column)
+        [InlineData(EColumn.C, ELine.Three)]
+        [InlineData(EColumn.A, ELine.Three)]
+        public void ShouldMovePawn(EColumn column, ELine line)
         {
-            var position = new Position(line, column);
+            var position = new Position(column, line);
             _pawn.Move(position);
             Assert.True(position.Equals(_pawn.Position));
         }
