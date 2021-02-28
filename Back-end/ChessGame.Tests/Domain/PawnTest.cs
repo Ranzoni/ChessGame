@@ -65,23 +65,23 @@ namespace ChessGame.Tests.Domain
         public static IEnumerable<object[]> BlackInvalidMove =>
            new List<object[]>
            {
-                //new object[] { null, new Position(EColumn.E, ELine.Eight) },
-                //new object[] { null, new Position(EColumn.C, ELine.Eight) },
-                //new object[] { null, new Position(EColumn.D, ELine.Eight) },
-                //new object[] { null, new Position(EColumn.F, ELine.Six) },
-                //new object[] { new Pawn(new Position(EColumn.C, ELine.Six), EColor.Black, _board), new Position(EColumn.C, ELine.Six) },
-                //new object[] { null, new Position(EColumn.D, ELine.Seven) },
-                //new object[] { null, new Position(EColumn.E, ELine.Five) },
-                //new object[] { null, new Position(EColumn.A, ELine.Four) },
-                //new object[] { new Pawn(new Position(EColumn.F, ELine.Six), EColor.White, _board), new Position(EColumn.F, ELine.Six) },
-                //new object[] { new Pawn(new Position(EColumn.C, ELine.Five), EColor.White, _board), new Position(EColumn.C, ELine.Five) },
-                //new object[] { new Pawn(new Position(EColumn.D, ELine.Six), EColor.White, _board), new Position(EColumn.D, ELine.Six) },
-                //new object[] { new Pawn(new Position(EColumn.D, ELine.Six), EColor.Black, _board), new Position(EColumn.D, ELine.Six) },
-                //new object[] { new Pawn(new Position(EColumn.D, ELine.Five), EColor.Black, _board), new Position(EColumn.D, ELine.Five) },
+                new object[] { null, new Position(EColumn.E, ELine.Eight) },
+                new object[] { null, new Position(EColumn.C, ELine.Eight) },
+                new object[] { null, new Position(EColumn.D, ELine.Eight) },
+                new object[] { null, new Position(EColumn.F, ELine.Six) },
+                new object[] { new Pawn(new Position(EColumn.C, ELine.Six), EColor.Black, _board), new Position(EColumn.C, ELine.Six) },
+                new object[] { null, new Position(EColumn.D, ELine.Seven) },
+                new object[] { null, new Position(EColumn.E, ELine.Five) },
+                new object[] { null, new Position(EColumn.A, ELine.Four) },
+                new object[] { new Pawn(new Position(EColumn.F, ELine.Six), EColor.White, _board), new Position(EColumn.F, ELine.Six) },
+                new object[] { new Pawn(new Position(EColumn.C, ELine.Five), EColor.White, _board), new Position(EColumn.C, ELine.Five) },
+                new object[] { new Pawn(new Position(EColumn.D, ELine.Six), EColor.White, _board), new Position(EColumn.D, ELine.Six) },
+                new object[] { new Pawn(new Position(EColumn.D, ELine.Six), EColor.Black, _board), new Position(EColumn.D, ELine.Six) },
+                new object[] { new Pawn(new Position(EColumn.D, ELine.Five), EColor.Black, _board), new Position(EColumn.D, ELine.Five) },
                 new object[] { new Pawn(new Position(EColumn.D, ELine.Six), EColor.Black, _board), new Position(EColumn.D, ELine.Five) },
-                //new object[] { new Pawn(new Position(EColumn.D, ELine.Five), EColor.White, _board), new Position(EColumn.D, ELine.Five) },
+                new object[] { new Pawn(new Position(EColumn.D, ELine.Five), EColor.White, _board), new Position(EColumn.D, ELine.Five) },
                 new object[] { new Pawn(new Position(EColumn.D, ELine.Six), EColor.White, _board), new Position(EColumn.D, ELine.Five) },
-                //new object[] { null, new Position(EColumn.D, ELine.Four) }
+                new object[] { null, new Position(EColumn.D, ELine.Four) }
            };
 
         public PawnTest()

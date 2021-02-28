@@ -68,15 +68,15 @@ namespace ChessGame.Domain.Entities
             return true;
         }
 
-        private bool PositionWillJumpPiece(Position position)
+        protected override bool PositionWillJumpPiece(Position newPosition)
         {
             var piecesOnWay = _board.Pieces.Where(p => p.Position.EqualsColumn(Position) && p != this);
             foreach (var pieceOnWay in piecesOnWay)
             {
-                if (Color == EColor.White && position.DifferenceLine(pieceOnWay.Position) >= 0)
+                if (Color == EColor.White && newPosition.DifferenceLine(pieceOnWay.Position) >= 0)
                     return true;
 
-                if (Color == EColor.Black && position.DifferenceLine(pieceOnWay.Position) <= 0)
+                if (Color == EColor.Black && newPosition.DifferenceLine(pieceOnWay.Position) <= 0)
                     return true;
             }
 

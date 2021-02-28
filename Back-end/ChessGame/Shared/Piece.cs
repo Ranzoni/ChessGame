@@ -43,5 +43,10 @@ namespace ChessGame.Domain.Shared
         {
             return false;
         }
+
+        protected virtual bool PositionWillJumpPiece(Position newPosition)
+        {
+            return false;
+        }
     }
 }

@@ -23,6 +23,11 @@ namespace ChessGame.Domain.Structs
             return _column == position._column;
         }
 
+        public bool EqualsLine(Position position)
+        {
+            return _line == position._line;
+        }
+
         public int DifferenceLine(Position position)
         {
             return _line - position._line;
@@ -31,6 +36,11 @@ namespace ChessGame.Domain.Structs
         public int DifferenceColumn(Position position)
         {
             return _column - position._column;
+        }
+
+        public bool NotEquals(Position position)
+        {
+            return _column != position._column && _line != position._line;
         }
     }
 }
