@@ -8,6 +8,7 @@ namespace ChessGame.Tests.Builder
     {
         private static Position Position = new Position(EColumn.B, ELine.Two);
         private static EColor Color = EColor.White;
+        private static Board Board = BoardBuilder.New().Build();
 
         public static PawnBuilder New()
         {
@@ -26,9 +27,15 @@ namespace ChessGame.Tests.Builder
             return this;
         }
 
+        public PawnBuilder WithBoard(Board board)
+        {
+            Board = board;
+            return this;
+        }
+
         public Pawn Build()
         {
-            return new Pawn(Position, Color);
+            return new Pawn(Position, Color, Board);
         }
     }
 }

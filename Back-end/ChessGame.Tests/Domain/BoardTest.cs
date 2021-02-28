@@ -11,26 +11,21 @@ namespace ChessGame.Tests.Domain
 {
     public class BoardTest
     {
-        private readonly Board _board;
+        private static readonly Board _board = new Board();
 
         public static IEnumerable<object[]> InvalidAddPiece =>
             new List<object[]>
             {
                 new object[] { null, null },
-                new object[] { new Pawn(new Position(EColumn.A, ELine.Two), EColor.Black), new Pawn(new Position(EColumn.A, ELine.Two), EColor.Black) },
+                new object[] { new Pawn(new Position(EColumn.A, ELine.Two), EColor.Black, _board), new Pawn(new Position(EColumn.A, ELine.Two), EColor.Black, _board) },
             };
 
         public static IEnumerable<object[]> InvalidKillPiece =>
             new List<object[]>
             {
                 new object[] { null },
-                new object[] { new Pawn(new Position(EColumn.A, ELine.Two), EColor.Black) },
+                new object[] { new Pawn(new Position(EColumn.A, ELine.Two), EColor.Black, _board) },
             };
-
-        public BoardTest()
-        {
-            _board = new Board();
-        }
 
         [Fact]
         public void ShouldAddPiece()

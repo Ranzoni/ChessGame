@@ -51,5 +51,11 @@ namespace ChessGame.Domain.Entities
         {
             return _deadPieces;
         }
+
+        public void ClearBoard()
+        {
+            _pieces.Clear();
+            _deadPieces.Clear();
+        }
     }
 }

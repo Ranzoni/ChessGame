@@ -7,36 +7,39 @@ namespace ChessGame.Domain.Shared
 {
     public abstract class Piece
     {
+        protected readonly Board _board;
+
         public Position Position { get; private set; }
         public EColor Color { get; private set; }
 
-        public Piece(Position position, EColor color)
+        public Piece(Position position, EColor color, Board board)
         {
             Position = position;
             Color = color;
+            _board = board;
         }
 
-        public virtual bool Move(Position newPosition, Board board)
+        public virtual bool Move(Position newPosition)
         {
-            if (!SpecialMove(newPosition, board) && !ValidMove(newPosition, board))
+            if (!SpecialMove(newPosition) && !ValidMove(newPosition))
                 return false;
 
             Position = newPosition;
             return true;
         }
 
-        protected virtual bool ValidMove(Position newPosition, Board board)
+        protected virtual bool ValidMove(Position newPosition)
         {
             if (newPosition.Equals(Position))
                 return false;
 
-            if (board.Pieces.Any(p => p.Color == Color && p.Position.Equals(newPosition)))
+            if (_board.Pieces.Any(p => p.Color == Color && p.Position.Equals(newPosition)))
                 return false;
 
             return true;
         }
 
-        protected virtual bool SpecialMove(Position newPosition, Board board)
+        protected virtual bool SpecialMove(Position newPosition)
         {
             return false;
         }

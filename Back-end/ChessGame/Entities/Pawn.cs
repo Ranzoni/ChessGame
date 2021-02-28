@@ -10,25 +10,25 @@ namespace ChessGame.Domain.Entities
     {
         private int _quantityMove;
 
-        public Pawn(Position position, EColor color) : base(position, color)
+        public Pawn(Position position, EColor color, Board board) : base(position, color, board)
         {
         }
 
-        public override bool Move(Position newPosition, Board board)
+        public override bool Move(Position newPosition)
         {
-            var moved = base.Move(newPosition, board);
+            var moved = base.Move(newPosition);
             if (moved)
                 _quantityMove++;
 
             return moved;
         }
 
-        protected override bool SpecialMove(Position newPosition, Board board)
+        protected override bool SpecialMove(Position newPosition)
         {
-            if (board.Pieces.Any(p => p.Position.Equals(newPosition)))
+            if (_board.Pieces.Any(p => p.Position.Equals(newPosition)))
                 return false;
 
-            if (_quantityMove == 0 && Position.EqualsColumn(newPosition) && Math.Abs(Position.DifferenceLine(newPosition)) == 2 && !PositionWillJumpPiece(newPosition, board))
+            if (_quantityMove == 0 && Position.EqualsColumn(newPosition) && Math.Abs(Position.DifferenceLine(newPosition)) == 2 && !PositionWillJumpPiece(newPosition))
                 return true;
 
             //Implementar movimento En Passant
@@ -36,24 +36,24 @@ namespace ChessGame.Domain.Entities
             return false;
         }
 
-        protected override bool ValidMove(Position newPosition, Board board)
+        protected override bool ValidMove(Position newPosition)
         {
-            if (!base.ValidMove(newPosition, board))
+            if (!base.ValidMove(newPosition))
                 return false;
 
             if (Color == EColor.White && newPosition.DifferenceLine(Position) == 1 && Math.Abs(newPosition.DifferenceColumn(Position)) == 1)
-                if (board.Pieces.Any(p => p.Color != Color && p.Position.Equals(newPosition)))
+                if (_board.Pieces.Any(p => p.Color != Color && p.Position.Equals(newPosition)))
                     return true;
                 else
                     return false;
 
             if (Color == EColor.Black && newPosition.DifferenceLine(Position) == -1 && Math.Abs(newPosition.DifferenceColumn(Position)) == 1)
-                if (board.Pieces.Any(p => p.Color != Color && p.Position.Equals(newPosition)))
+                if (_board.Pieces.Any(p => p.Color != Color && p.Position.Equals(newPosition)))
                     return true;
                 else
                     return false;
 
-            if (board.Pieces.Any(p => p.Position.Equals(newPosition)))
+            if (_board.Pieces.Any(p => p.Position.Equals(newPosition)))
                 return false;
 
             if (newPosition.DifferenceColumn(Position) != 0)
@@ -68,9 +68,9 @@ namespace ChessGame.Domain.Entities
             return true;
         }
 
-        private bool PositionWillJumpPiece(Position position, Board board)
+        private bool PositionWillJumpPiece(Position position)
         {
-            var piecesOnWay = board.Pieces.Where(p => p.Position.EqualsColumn(Position) && p.Position.DifferenceLine(Position) == 1);
+            var piecesOnWay = _board.Pieces.Where(p => p.Position.EqualsColumn(Position) && p.Position.DifferenceLine(Position) == 1);
             foreach (var pieceOnWay in piecesOnWay)
             {
                 if (Color == EColor.White && position.DifferenceLine(pieceOnWay.Position) >= 0)
