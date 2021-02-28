@@ -130,5 +130,13 @@ namespace ChessGame.Tests.Domain
             var notMoved = !_whitePawn.Move(newPosition);
             Assert.True(notMoved && _blackPawn.Position.Equals(actualPosition));
         }
+
+        [Fact]
+        public void ShouldRegisterQuantityMovie()
+        {
+            _whitePawn.Move(new Position(EColumn.B, ELine.Three));
+            _whitePawn.Move(new Position(EColumn.B, ELine.Four));
+            Assert.True(_whitePawn.QuantityMove == 2);
+        }
     }
 }

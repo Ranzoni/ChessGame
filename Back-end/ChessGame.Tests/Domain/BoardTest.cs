@@ -69,5 +69,22 @@ namespace ChessGame.Tests.Domain
             var pieceIsNotDead = !_board.GetDeadPieces().Any(p => p.Equals(piece));
             Assert.True(pieceIsNotDead);
         }
+
+        [Fact]
+        public void ShouldClearBoard()
+        {
+            var pawn1 = PawnBuilder.New().WithPosition(new Position(EColumn.A, ELine.Two)).WithBoard(_board).Build();
+            _board.AddPiece(pawn1);
+            var pawn2 = PawnBuilder.New().WithPosition(new Position(EColumn.B, ELine.Two)).WithBoard(_board).Build();
+            _board.AddPiece(pawn2);
+            var pawn3 = PawnBuilder.New().WithPosition(new Position(EColumn.C, ELine.Two)).WithBoard(_board).Build();
+            _board.AddPiece(pawn3);
+            _board.KillPiece(pawn3);
+
+            _board.ClearBoard();
+
+            var boardWasClean = _board.Pieces.Count == 0 && _board.DeadPieces.Count == 0;
+            Assert.True(boardWasClean);
+        }
     }
 }

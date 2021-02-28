@@ -8,7 +8,7 @@ namespace ChessGame.Domain.Entities
 {
     public class Pawn : Piece
     {
-        private int _quantityMove;
+        public int QuantityMove { get; private set; }
 
         public Pawn(Position position, EColor color, Board board) : base(position, color, board)
         {
@@ -18,7 +18,7 @@ namespace ChessGame.Domain.Entities
         {
             var moved = base.Move(newPosition);
             if (moved)
-                _quantityMove++;
+                QuantityMove++;
 
             return moved;
         }
@@ -28,7 +28,7 @@ namespace ChessGame.Domain.Entities
             if (_board.Pieces.Any(p => p.Position.Equals(newPosition)))
                 return false;
 
-            if (_quantityMove == 0 && Position.EqualsColumn(newPosition) && Math.Abs(Position.DifferenceLine(newPosition)) == 2 && !PositionWillJumpPiece(newPosition))
+            if (QuantityMove == 0 && Position.EqualsColumn(newPosition) && Math.Abs(Position.DifferenceLine(newPosition)) == 2 && !PositionWillJumpPiece(newPosition))
                 return true;
 
             //Implementar movimento En Passant
