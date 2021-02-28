@@ -16,9 +16,9 @@ namespace ChessGame.Domain.Shared
             Color = color;
         }
 
-        public bool Move(Position newPosition, Board board)
+        public virtual bool Move(Position newPosition, Board board)
         {
-            if (!ValidMove(newPosition, board))
+            if (!SpecialMove(newPosition, board) && !ValidMove(newPosition, board))
                 return false;
 
             Position = newPosition;
@@ -34,6 +34,11 @@ namespace ChessGame.Domain.Shared
                 return false;
 
             return true;
+        }
+
+        protected virtual bool SpecialMove(Position newPosition, Board board)
+        {
+            return false;
         }
     }
 }

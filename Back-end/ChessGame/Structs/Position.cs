@@ -18,14 +18,9 @@ namespace ChessGame.Domain.Structs
             return _line == position._line && _column == position._column;
         }
 
-        public bool LineLowerOrEquals(Position position)
+        public bool EqualsColumn(Position position)
         {
-            return _line <= position._line;
-        }
-
-        public bool LineGreaterOrEquals(Position position)
-        {
-            return _line >= position._line;
+            return _column == position._column;
         }
 
         public int DifferenceLine(Position position)
