@@ -70,7 +70,7 @@ namespace ChessGame.Domain.Entities
 
         private bool PositionWillJumpPiece(Position position)
         {
-            var piecesOnWay = _board.Pieces.Where(p => p.Position.EqualsColumn(Position) && p.Position.DifferenceLine(Position) == 1);
+            var piecesOnWay = _board.Pieces.Where(p => p.Position.EqualsColumn(Position) && p != this);
             foreach (var pieceOnWay in piecesOnWay)
             {
                 if (Color == EColor.White && position.DifferenceLine(pieceOnWay.Position) >= 0)
