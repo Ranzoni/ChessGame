@@ -1,39 +1,25 @@
 ﻿using ChessGame.Domain.Entities;
 using ChessGame.Domain.Enums;
 using ChessGame.Domain.Structs;
+using ChessGame.Tests.Shared;
 
 namespace ChessGame.Tests.Builder
 {
-    public class BishopBuilder
+    public class BishopBuilder : PieceBuilder<Bishop>
     {
-        private static Position Position = new Position(EColumn.E, ELine.Three);
-        private static EColor Color = EColor.White;
-        private static Board Board = BoardBuilder.New().Build();
+        public BishopBuilder()
+        {
+            Position = new Position(EColumn.E, ELine.Three);
+            Color = EColor.White;
+            Board = BoardBuilder.New().Build();
+        }
 
         public static BishopBuilder New()
         {
             return new BishopBuilder();
         }
 
-        public BishopBuilder WithPosition(Position position)
-        {
-            Position = position;
-            return this;
-        }
-
-        public BishopBuilder WithColor(EColor color)
-        {
-            Color = color;
-            return this;
-        }
-
-        public BishopBuilder WithBoard(Board board)
-        {
-            Board = board;
-            return this;
-        }
-
-        public Bishop Build()
+        public override Bishop Build()
         {
             return new Bishop(Position, Color, Board);
         }

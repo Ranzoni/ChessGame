@@ -1,10 +1,11 @@
 ﻿using ChessGame.Domain.Entities;
 using ChessGame.Domain.Shared;
+using ChessGame.Tests.Shared;
 using System.Collections.Generic;
 
 namespace ChessGame.Tests.Builder
 {
-    public class BoardBuilder
+    public class BoardBuilder : IBuilder<Board>
     {
         private readonly List<Piece> _pieces = new List<Piece>();
 
