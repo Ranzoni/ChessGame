@@ -17,7 +17,7 @@ namespace ChessGame.Domain.Entities
             if (!base.ValidMove(newPosition))
                 return false;
 
-            if (Math.Abs(Position.DifferenceColumn(newPosition)) == Math.Abs(Position.DifferenceLine(newPosition)))
+            if (Math.Abs(Position.DifferenceColumn(newPosition)) != Math.Abs(Position.DifferenceLine(newPosition)))
                 return false;
 
             if (PositionWillJumpPiece(newPosition))
