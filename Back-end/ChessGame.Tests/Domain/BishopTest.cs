@@ -53,6 +53,8 @@ namespace ChessGame.Tests.Domain
            {
                new object[] { null, new Position(EColumn.E, ELine.Three) },
                new object[] { null, new Position(EColumn.D, ELine.One) },
+               new object[] { null, new Position(EColumn.D, ELine.Three) },
+               new object[] { null, new Position(EColumn.H, ELine.Three) },
                new object[] { null, new Position(EColumn.B, ELine.One) },
                new object[] { null, new Position(EColumn.F, ELine.Three) },
                new object[] { null, new Position(EColumn.G, ELine.Four) },
