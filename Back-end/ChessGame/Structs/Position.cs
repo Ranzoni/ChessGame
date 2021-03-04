@@ -4,43 +4,43 @@ namespace ChessGame.Domain.Structs
 {
     public struct Position
     {
-        private readonly EColumn _column;
-        private readonly ELine _line;
+        public readonly EColumn Column;
+        public readonly ELine Line;
 
         public Position(EColumn column, ELine line)
         {
-            _column = column;
-            _line = line;
+            Column = column;
+            Line = line;
         }
 
         public bool Equals(Position position)
         {
-            return _line == position._line && _column == position._column;
+            return Line == position.Line && Column == position.Column;
         }
 
         public bool EqualsColumn(Position position)
         {
-            return _column == position._column;
+            return Column == position.Column;
         }
 
         public bool EqualsLine(Position position)
         {
-            return _line == position._line;
+            return Line == position.Line;
         }
 
         public int DifferenceLine(Position position)
         {
-            return _line - position._line;
+            return Line - position.Line;
         }
 
         public int DifferenceColumn(Position position)
         {
-            return _column - position._column;
+            return Column - position.Column;
         }
 
         public bool NotEquals(Position position)
         {
-            return _column != position._column && _line != position._line;
+            return Column != position.Column && Line != position.Line;
         }
     }
 }

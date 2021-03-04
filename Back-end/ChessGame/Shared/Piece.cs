@@ -11,6 +11,7 @@ namespace ChessGame.Domain.Shared
 
         public Position Position { get; private set; }
         public EColor Color { get; private set; }
+        public int QuantityMove { get; private set; }
 
         public Piece(Position position, EColor color, Board board)
         {
@@ -19,11 +20,12 @@ namespace ChessGame.Domain.Shared
             _board = board;
         }
 
-        public virtual bool Move(Position newPosition)
+        public bool Move(Position newPosition)
         {
             if (!SpecialMove(newPosition) && !ValidMove(newPosition))
                 return false;
 
+            QuantityMove++;
             Position = newPosition;
             return true;
         }

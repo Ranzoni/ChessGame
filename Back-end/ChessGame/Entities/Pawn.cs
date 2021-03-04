@@ -8,19 +8,8 @@ namespace ChessGame.Domain.Entities
 {
     public class Pawn : Piece
     {
-        public int QuantityMove { get; private set; }
-
         public Pawn(Position position, EColor color, Board board) : base(position, color, board)
         {
-        }
-
-        public override bool Move(Position newPosition)
-        {
-            var moved = base.Move(newPosition);
-            if (moved)
-                QuantityMove++;
-
-            return moved;
         }
 
         protected override bool SpecialMove(Position newPosition)
