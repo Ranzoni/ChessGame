@@ -35,10 +35,9 @@ namespace ChessGame.Domain.Entities
 
             if (Position.EqualsLine(newPosition) && Math.Abs(Position.DifferenceColumn(newPosition)) == 2 && !PositionWillJumpPiece(newPosition))
             {
-                Piece rookToCastling;
                 if (newPosition.DifferenceColumn(Position) > 0)
                 {
-                    rookToCastling = _board.Pieces.Where(p => p is Rook && p.QuantityMove == 0 && p.Position.DifferenceColumn(newPosition) > 0).FirstOrDefault();
+                    var rookToCastling = _board.Pieces.Where(p => p is Rook && p.QuantityMove == 0 && p.Position.DifferenceColumn(newPosition) > 0).FirstOrDefault();
                     if (rookToCastling != null)
                     {
                         var newPositionRook = new Position(EColumn.F, rookToCastling.Position.Line);
@@ -48,7 +47,7 @@ namespace ChessGame.Domain.Entities
                 }
                 else
                 {
-                    rookToCastling = _board.Pieces.Where(p => p is Rook && p.QuantityMove == 0 && p.Position.DifferenceColumn(newPosition) < 0).FirstOrDefault();
+                    var rookToCastling = _board.Pieces.Where(p => p is Rook && p.QuantityMove == 0 && p.Position.DifferenceColumn(newPosition) < 0).FirstOrDefault();
                     if (rookToCastling != null)
                     {
                         var newPositionRook = new Position(EColumn.D, rookToCastling.Position.Line);
@@ -66,10 +65,10 @@ namespace ChessGame.Domain.Entities
             var piecesOnWay = _board.Pieces.Where(p => p.Position.EqualsLine(Position) && p != this && !(p is Rook));
             foreach (var pieceOnWay in piecesOnWay)
             {
-                if (newPosition.DifferenceColumn(Position) < 0 && pieceOnWay.Position.DifferenceColumn(Position) < 0 && newPosition.DifferenceColumn(pieceOnWay.Position) <= 0)
+                if (newPosition.DifferenceColumn(Position) < 0 && pieceOnWay.Position.DifferenceColumn(Position) < 0)
                     return true;
 
-                if (newPosition.DifferenceColumn(Position) > 0 && pieceOnWay.Position.DifferenceColumn(Position) > 0 && newPosition.DifferenceColumn(pieceOnWay.Position) >= 0)
+                if (newPosition.DifferenceColumn(Position) > 0 && pieceOnWay.Position.DifferenceColumn(Position) > 0)
                     return true;
             }
 

@@ -77,7 +77,7 @@ namespace ChessGame.Tests.Domain
         {
             _board.AddPiece(pieceToAddBoard);
             var moved = _rook.Move(newPosition);
-            Assert.True(moved && _rook.Position.Equals(newPosition));
+            Assert.True(moved && _rook.Position.Equals(newPosition) && _rook.QuantityMove > 0);
         }
 
         [Theory]
@@ -87,7 +87,7 @@ namespace ChessGame.Tests.Domain
             var actualPosition = _rook.Position;
             _board.AddPiece(pieceToAddBoard);
             var notMoved = !_rook.Move(newPosition);
-            Assert.True(notMoved && _rook.Position.Equals(actualPosition));
+            Assert.True(notMoved && _rook.Position.Equals(actualPosition) && _rook.QuantityMove == 0);
         }
     }
 }
