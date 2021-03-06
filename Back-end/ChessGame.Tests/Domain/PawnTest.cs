@@ -1,7 +1,4 @@
-﻿using ChessGame.Domain.Entities;
-using ChessGame.Domain.Enums;
-using ChessGame.Domain.Game;
-using ChessGame.Domain.Shared;
+﻿using ChessGame.Domain.Enums;
 using ChessGame.Domain.Structs;
 using ChessGame.Domain.Builder;
 using System.Collections.Generic;
@@ -11,133 +8,133 @@ namespace ChessGame.Tests.Domain
 {
     public class PawnTest
     {
-        private static readonly Board _board = BoardBuilder.New().Build();
-        private readonly Pawn _whitePawn;
-        private readonly Pawn _blackPawn;
-
-        public static IEnumerable<object[]> WhiteValidMove =>
+        public static IEnumerable<object[]> ValidMove =>
             new List<object[]>
             {
-                new object[] { null, new Position(EColumn.B, ELine.Three) },
-                new object[] { new Pawn(new Position(EColumn.C, ELine.Three), EColor.Black, _board), new Position(EColumn.C, ELine.Three) },
-                new object[] { new Pawn(new Position(EColumn.A, ELine.Three), EColor.Black, _board), new Position(EColumn.A, ELine.Three) },
-                new object[] { null, new Position(EColumn.B, ELine.Four) },
-                new object[] { new Pawn(new Position(EColumn.B, ELine.Four), EColor.White, _board), new Position(EColumn.B, ELine.Three) },
-                new object[] { new Pawn(new Position(EColumn.B, ELine.Four), EColor.Black, _board), new Position(EColumn.B, ELine.Three) },
-                new object[] { new Pawn(new Position(EColumn.B, ELine.Five), EColor.White, _board), new Position(EColumn.B, ELine.Four) },
-                new object[] { new Pawn(new Position(EColumn.B, ELine.Five), EColor.Black, _board), new Position(EColumn.B, ELine.Four) }
+                new object[] { new Position(EColumn.B, ELine.Two), new Position(EColumn.B, ELine.Three), EColor.White },
+                new object[] { new Position(EColumn.B, ELine.Two), new Position(EColumn.B, ELine.Four), EColor.White },
+                new object[] { new Position(EColumn.D, ELine.Seven), new Position(EColumn.D, ELine.Six), EColor.Black },
+                new object[] { new Position(EColumn.D, ELine.Seven), new Position(EColumn.D, ELine.Five), EColor.Black }
             };
 
-        public static IEnumerable<object[]> BlackValidMove =>
+        public static IEnumerable<object[]> ValidMoveWithPiecesOnBoard =>
             new List<object[]>
             {
-                new object[] { null, new Position(EColumn.D, ELine.Six) },
-                new object[] { new Pawn(new Position(EColumn.E, ELine.Six), EColor.White, _board), new Position(EColumn.E, ELine.Six) },
-                new object[] { new Pawn(new Position(EColumn.C, ELine.Six), EColor.White, _board), new Position(EColumn.C, ELine.Six) },
-                new object[] { null, new Position(EColumn.D, ELine.Five) },
-                new object[] { new Pawn(new Position(EColumn.D, ELine.Five), EColor.White, _board), new Position(EColumn.D, ELine.Six) },
-                new object[] { new Pawn(new Position(EColumn.D, ELine.Five), EColor.Black, _board), new Position(EColumn.D, ELine.Six) },
-                new object[] { new Pawn(new Position(EColumn.D, ELine.Four), EColor.White, _board), new Position(EColumn.D, ELine.Five) },
-                new object[] { new Pawn(new Position(EColumn.D, ELine.Four), EColor.Black, _board), new Position(EColumn.D, ELine.Five) }
+                new object[] { new Position(EColumn.B, ELine.Four), EColor.White, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.B, ELine.Three) },
+                new object[] { new Position(EColumn.B, ELine.Four), EColor.Black, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.B, ELine.Three) },
+                new object[] { new Position(EColumn.B, ELine.Five), EColor.White, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.B, ELine.Four) },
+                new object[] { new Position(EColumn.B, ELine.Five), EColor.Black, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.B, ELine.Four) },
+                new object[] { new Position(EColumn.C, ELine.Three), EColor.Black, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.C, ELine.Three) },
+                new object[] { new Position(EColumn.A, ELine.Three), EColor.Black, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.A, ELine.Three) },
+                new object[] { new Position(EColumn.E, ELine.Six), EColor.White, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.E, ELine.Six) },
+                new object[] { new Position(EColumn.C, ELine.Six), EColor.White, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.C, ELine.Six) },
+                new object[] { new Position(EColumn.D, ELine.Five), EColor.White, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.D, ELine.Six) },
+                new object[] { new Position(EColumn.D, ELine.Five), EColor.Black, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.D, ELine.Six) },
+                new object[] { new Position(EColumn.D, ELine.Four), EColor.White, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.D, ELine.Five) },
+                new object[] { new Position(EColumn.D, ELine.Four), EColor.Black, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.D, ELine.Five) }
             };
 
-        public static IEnumerable<object[]> WhiteInvalidMove =>
+        public static IEnumerable<object[]> InvalidMove =>
            new List<object[]>
            {
-                new object[] { null, new Position(EColumn.C, ELine.One) },
-                new object[] { null, new Position(EColumn.A, ELine.One) },
-                new object[] { null, new Position(EColumn.B, ELine.One) },
-                new object[] { null, new Position(EColumn.D, ELine.Three) },
-                new object[] { new Pawn(new Position(EColumn.A, ELine.Three), EColor.White, _board), new Position(EColumn.A, ELine.Three) },
-                new object[] { null, new Position(EColumn.B, ELine.Two) },
-                new object[] { null, new Position(EColumn.E, ELine.Five) },
-                new object[] { null, new Position(EColumn.F, ELine.Eight) },
-                new object[] { new Pawn(new Position(EColumn.D, ELine.Three), EColor.Black, _board), new Position(EColumn.D, ELine.Three) },
-                new object[] { new Pawn(new Position(EColumn.A, ELine.Four), EColor.Black, _board), new Position(EColumn.A, ELine.Four) },
-                new object[] { new Pawn(new Position(EColumn.B, ELine.Three), EColor.Black, _board), new Position(EColumn.B, ELine.Three) },
-                new object[] { new Pawn(new Position(EColumn.B, ELine.Three), EColor.White, _board), new Position(EColumn.B, ELine.Three) },
-                new object[] { new Pawn(new Position(EColumn.B, ELine.Four), EColor.White, _board), new Position(EColumn.B, ELine.Four) },
-                new object[] { new Pawn(new Position(EColumn.B, ELine.Three), EColor.White, _board), new Position(EColumn.B, ELine.Four) },
-                new object[] { new Pawn(new Position(EColumn.B, ELine.Four), EColor.Black, _board), new Position(EColumn.B, ELine.Four) },
-                new object[] { new Pawn(new Position(EColumn.B, ELine.Three), EColor.Black, _board), new Position(EColumn.B, ELine.Four) },
-                new object[] { null, new Position(EColumn.B, ELine.Five) }
+                new object[] { new Position(EColumn.B, ELine.Two), new Position(EColumn.C, ELine.One), EColor.White },
+                new object[] { new Position(EColumn.B, ELine.Two), new Position(EColumn.A, ELine.One), EColor.White },
+                new object[] { new Position(EColumn.B, ELine.Two), new Position(EColumn.B, ELine.One), EColor.White },
+                new object[] { new Position(EColumn.B, ELine.Two), new Position(EColumn.D, ELine.Three), EColor.White },
+                new object[] { new Position(EColumn.B, ELine.Two), new Position(EColumn.B, ELine.Two), EColor.White },
+                new object[] { new Position(EColumn.B, ELine.Two), new Position(EColumn.E, ELine.Five), EColor.White },
+                new object[] { new Position(EColumn.B, ELine.Two), new Position(EColumn.F, ELine.Eight), EColor.White },
+                new object[] { new Position(EColumn.B, ELine.Two), new Position(EColumn.B, ELine.Five), EColor.White },
+                new object[] { new Position(EColumn.D, ELine.Seven), new Position(EColumn.E, ELine.Eight), EColor.Black },
+                new object[] { new Position(EColumn.D, ELine.Seven), new Position(EColumn.C, ELine.Eight), EColor.Black },
+                new object[] { new Position(EColumn.D, ELine.Seven), new Position(EColumn.D, ELine.Eight), EColor.Black },
+                new object[] { new Position(EColumn.D, ELine.Seven), new Position(EColumn.F, ELine.Six), EColor.Black },
+                new object[] { new Position(EColumn.D, ELine.Seven), new Position(EColumn.D, ELine.Seven), EColor.Black },
+                new object[] { new Position(EColumn.D, ELine.Seven), new Position(EColumn.E, ELine.Five), EColor.Black },
+                new object[] { new Position(EColumn.D, ELine.Seven), new Position(EColumn.A, ELine.Four), EColor.Black },
+                new object[] { new Position(EColumn.D, ELine.Seven), new Position(EColumn.D, ELine.Four), EColor.Black }
            };
 
-        public static IEnumerable<object[]> BlackInvalidMove =>
+        public static IEnumerable<object[]> InvalidMoveWithPiecesOnBoard =>
            new List<object[]>
            {
-                new object[] { null, new Position(EColumn.E, ELine.Eight) },
-                new object[] { null, new Position(EColumn.C, ELine.Eight) },
-                new object[] { null, new Position(EColumn.D, ELine.Eight) },
-                new object[] { null, new Position(EColumn.F, ELine.Six) },
-                new object[] { new Pawn(new Position(EColumn.C, ELine.Six), EColor.Black, _board), new Position(EColumn.C, ELine.Six) },
-                new object[] { null, new Position(EColumn.D, ELine.Seven) },
-                new object[] { null, new Position(EColumn.E, ELine.Five) },
-                new object[] { null, new Position(EColumn.A, ELine.Four) },
-                new object[] { new Pawn(new Position(EColumn.F, ELine.Six), EColor.White, _board), new Position(EColumn.F, ELine.Six) },
-                new object[] { new Pawn(new Position(EColumn.C, ELine.Five), EColor.White, _board), new Position(EColumn.C, ELine.Five) },
-                new object[] { new Pawn(new Position(EColumn.D, ELine.Six), EColor.White, _board), new Position(EColumn.D, ELine.Six) },
-                new object[] { new Pawn(new Position(EColumn.D, ELine.Six), EColor.Black, _board), new Position(EColumn.D, ELine.Six) },
-                new object[] { new Pawn(new Position(EColumn.D, ELine.Five), EColor.Black, _board), new Position(EColumn.D, ELine.Five) },
-                new object[] { new Pawn(new Position(EColumn.D, ELine.Six), EColor.Black, _board), new Position(EColumn.D, ELine.Five) },
-                new object[] { new Pawn(new Position(EColumn.D, ELine.Five), EColor.White, _board), new Position(EColumn.D, ELine.Five) },
-                new object[] { new Pawn(new Position(EColumn.D, ELine.Six), EColor.White, _board), new Position(EColumn.D, ELine.Five) },
-                new object[] { null, new Position(EColumn.D, ELine.Four) }
+                new object[] { new Position(EColumn.A, ELine.Three), EColor.White, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.A, ELine.Three) },
+                new object[] { new Position(EColumn.D, ELine.Three), EColor.Black, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.D, ELine.Three) },
+                new object[] { new Position(EColumn.A, ELine.Four), EColor.Black, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.A, ELine.Four) },
+                new object[] { new Position(EColumn.B, ELine.Three), EColor.Black, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.B, ELine.Three) },
+                new object[] { new Position(EColumn.B, ELine.Three), EColor.White, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.B, ELine.Three) },
+                new object[] { new Position(EColumn.B, ELine.Four), EColor.White, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.B, ELine.Four) },
+                new object[] { new Position(EColumn.B, ELine.Three), EColor.White, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.B, ELine.Four) },
+                new object[] { new Position(EColumn.B, ELine.Four), EColor.Black, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.B, ELine.Four) },
+                new object[] { new Position(EColumn.B, ELine.Three), EColor.Black, new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.B, ELine.Four) },
+                new object[] { new Position(EColumn.C, ELine.Six), EColor.Black, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.C, ELine.Six) },
+                new object[] { new Position(EColumn.F, ELine.Six), EColor.White, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.F, ELine.Six) },
+                new object[] { new Position(EColumn.C, ELine.Five), EColor.White, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.C, ELine.Five) },
+                new object[] { new Position(EColumn.D, ELine.Six), EColor.White, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.D, ELine.Six) },
+                new object[] { new Position(EColumn.D, ELine.Six), EColor.Black, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.D, ELine.Six) },
+                new object[] { new Position(EColumn.D, ELine.Five), EColor.Black, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.D, ELine.Five) },
+                new object[] { new Position(EColumn.D, ELine.Six), EColor.Black, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.D, ELine.Five) },
+                new object[] { new Position(EColumn.D, ELine.Five), EColor.White, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.D, ELine.Five) },
+                new object[] { new Position(EColumn.D, ELine.Six), EColor.White, new Position(EColumn.D, ELine.Seven), EColor.Black, new Position(EColumn.D, ELine.Five) },
            };
 
-        public PawnTest()
+        [Theory]
+        [MemberData(nameof(ValidMove))]
+        public void ShouldMove(Position actualPosition, Position newPosition, EColor color)
         {
-            _board.ClearBoard();
-            _whitePawn = PawnBuilder.New().WithPosition(new Position(EColumn.B, ELine.Two)).WithColor(EColor.White).WithBoard(_board).Build();
-            _board.AddPiece(_whitePawn);
-            _blackPawn = PawnBuilder.New().WithPosition(new Position(EColumn.D, ELine.Seven)).WithColor(EColor.Black).WithBoard(_board).Build();
-            _board.AddPiece(_blackPawn);
+            var board = BoardBuilder.New().Build();
+            board.ClearBoard();
+            var pawn = PawnBuilder.New().WithColor(color).WithPosition(actualPosition).WithBoard(board).Build();
+            board.AddPiece(pawn);
+            var moved = pawn.Move(newPosition);
+            Assert.True(moved && pawn.Position.Equals(newPosition) && pawn.QuantityMove == 1);
         }
 
         [Theory]
-        [MemberData(nameof(WhiteValidMove))]
-        public void ShouldMoveWhitePawn(Piece pieceToAddBoard, Position newPosition)
+        [MemberData(nameof(ValidMoveWithPiecesOnBoard))]
+        public void ShouldMoveWithPiecesOnBoard(Position positionPieceToAddBoard, EColor colorPieceToAddBoard, Position actualPosition, EColor color, Position newPosition)
         {
-            _board.AddPiece(pieceToAddBoard);
-            var moved = _whitePawn.Move(newPosition);
-            Assert.True(moved && _whitePawn.Position.Equals(newPosition) && _whitePawn.QuantityMove == 1);
+            var board = BoardBuilder.New().Build();
+            board.ClearBoard();
+            var pieceToAddBoard = PawnBuilder.New().WithPosition(positionPieceToAddBoard).WithColor(colorPieceToAddBoard).WithBoard(board).Build();
+            board.AddPiece(pieceToAddBoard);
+            var pawn = PawnBuilder.New().WithColor(color).WithPosition(actualPosition).WithBoard(board).Build();
+            var moved = pawn.Move(newPosition);
+            Assert.True(moved && pawn.Position.Equals(newPosition) && pawn.QuantityMove == 1);
         }
 
         [Theory]
-        [MemberData(nameof(BlackValidMove))]
-        public void ShouldMoveBlackPawn(Piece pieceToAddBoard, Position newPosition)
+        [MemberData(nameof(InvalidMove))]
+        public void ShouldNotMove(Position actualPosition, Position newPosition, EColor color)
         {
-            _board.AddPiece(pieceToAddBoard);
-            var moved = _blackPawn.Move(newPosition);
-            Assert.True(moved && _blackPawn.Position.Equals(newPosition) && _blackPawn.QuantityMove == 1);
+            var board = BoardBuilder.New().Build();
+            board.ClearBoard();
+            var pawn = PawnBuilder.New().WithColor(color).WithPosition(actualPosition).WithBoard(board).Build();
+            board.AddPiece(pawn);
+            var notMoved = !pawn.Move(newPosition);
+            Assert.True(notMoved && pawn.Position.Equals(actualPosition) && pawn.QuantityMove == 0);
         }
 
         [Theory]
-        [MemberData(nameof(WhiteInvalidMove))]
-        public void ShouldNotMoveWhitePawn(Piece pieceToAddBoard, Position newPosition)
+        [MemberData(nameof(InvalidMoveWithPiecesOnBoard))]
+        public void ShouldNotMoveWithPiecesOnBoard(Position positionPieceToAddBoard, EColor colorPieceToAddBoard, Position actualPosition, EColor color, Position newPosition)
         {
-            var actualPosition = _whitePawn.Position;
-            _board.AddPiece(pieceToAddBoard);
-            var notMoved = !_whitePawn.Move(newPosition);
-            Assert.True(notMoved && _whitePawn.Position.Equals(actualPosition) && _whitePawn.QuantityMove == 0);
-        }
-
-        [Theory]
-        [MemberData(nameof(BlackInvalidMove))]
-        public void ShouldNotMoveBlackPawn(Piece pieceToAddBoard, Position newPosition)
-        {
-            var actualPosition = _blackPawn.Position;
-            _board.AddPiece(pieceToAddBoard);
-            var notMoved = !_blackPawn.Move(newPosition);
-            Assert.True(notMoved && _blackPawn.Position.Equals(actualPosition) && _blackPawn.QuantityMove == 0);
+            var board = BoardBuilder.New().Build();
+            board.ClearBoard();
+            var pieceToAddBoard = PawnBuilder.New().WithPosition(positionPieceToAddBoard).WithColor(colorPieceToAddBoard).WithBoard(board).Build();
+            board.AddPiece(pieceToAddBoard);
+            var pawn = PawnBuilder.New().WithColor(color).WithPosition(actualPosition).WithBoard(board).Build();
+            var notMoved = !pawn.Move(newPosition);
+            Assert.True(notMoved && pawn.Position.Equals(actualPosition) && pawn.QuantityMove == 0);
         }
 
         [Fact]
-        public void ShouldRegisterQuantityMovie()
+        public void ShouldRegisterQuantityMove()
         {
-            _whitePawn.Move(new Position(EColumn.B, ELine.Three));
-            _whitePawn.Move(new Position(EColumn.B, ELine.Four));
-            Assert.True(_whitePawn.QuantityMove == 2);
+            var pawn = PawnBuilder.New().Build();
+            pawn.Move(new Position(EColumn.B, ELine.Three));
+            pawn.Move(new Position(EColumn.B, ELine.Four));
+            Assert.True(pawn.QuantityMove == 2);
         }
     }
 }

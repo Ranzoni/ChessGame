@@ -42,7 +42,8 @@ namespace ChessGame.Tests.Game
         public void ShouldKillPiece()
         {
             var pawn = PawnBuilder.New().Build();
-            var board = BoardBuilder.New().WithPiece(pawn).Build();
+            var board = BoardBuilder.New().Build();
+            board.AddPiece(pawn);
             board.KillPiece(pawn);
 
             var removedPiecefromBoard = !board.GetPieces().Any(p => p.Equals(pawn));
@@ -52,9 +53,10 @@ namespace ChessGame.Tests.Game
 
         [Theory]
         [MemberData(nameof(InvalidAddPiece))]
-        public void ShouldNotAddPiece(Piece pieceToPutOnBoard, Piece newPiece)
+        public void ShouldNotAddPiece(Piece pieceToAddOnBoard, Piece newPiece)
         {
-            var board = BoardBuilder.New().WithPiece(pieceToPutOnBoard).Build();
+            var board = BoardBuilder.New().Build();
+            board.AddPiece(pieceToAddOnBoard);
             board.AddPiece(newPiece);
 
             var notExistisPieceOnBoard = !board.GetPieces().Any(p => p.Equals(newPiece));
