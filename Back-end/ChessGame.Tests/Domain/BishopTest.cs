@@ -1,8 +1,9 @@
 ﻿using ChessGame.Domain.Entities;
 using ChessGame.Domain.Enums;
+using ChessGame.Domain.Game;
 using ChessGame.Domain.Shared;
 using ChessGame.Domain.Structs;
-using ChessGame.Tests.Builder;
+using ChessGame.Domain.Builder;
 using System.Collections.Generic;
 using Xunit;
 

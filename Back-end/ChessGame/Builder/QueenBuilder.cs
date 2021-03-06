@@ -1,9 +1,9 @@
 ﻿using ChessGame.Domain.Entities;
 using ChessGame.Domain.Enums;
 using ChessGame.Domain.Structs;
-using ChessGame.Tests.Shared;
+using ChessGame.Domain.Shared;
 
-namespace ChessGame.Tests.Builder
+namespace ChessGame.Domain.Builder
 {
     public class QueenBuilder : PieceBuilder<Queen>
     {

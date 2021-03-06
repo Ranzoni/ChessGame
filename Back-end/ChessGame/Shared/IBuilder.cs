@@ -1,4 +1,4 @@
-﻿namespace ChessGame.Tests.Shared
+﻿namespace ChessGame.Domain.Shared
 {
     public interface IBuilder<T>
     {

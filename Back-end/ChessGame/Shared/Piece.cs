@@ -1,5 +1,5 @@
-﻿using ChessGame.Domain.Entities;
-using ChessGame.Domain.Enums;
+﻿using ChessGame.Domain.Enums;
+using ChessGame.Domain.Game;
 using ChessGame.Domain.Structs;
 using System.Linq;
 

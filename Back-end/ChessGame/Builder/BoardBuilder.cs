@@ -1,9 +1,8 @@
-﻿using ChessGame.Domain.Entities;
+﻿using ChessGame.Domain.Game;
 using ChessGame.Domain.Shared;
-using ChessGame.Tests.Shared;
 using System.Collections.Generic;
 
-namespace ChessGame.Tests.Builder
+namespace ChessGame.Domain.Builder
 {
     public class BoardBuilder : IBuilder<Board>
     {

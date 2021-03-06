@@ -1,8 +1,8 @@
-﻿using ChessGame.Domain.Entities;
-using ChessGame.Domain.Enums;
+﻿using ChessGame.Domain.Enums;
+using ChessGame.Domain.Game;
 using ChessGame.Domain.Structs;
 
-namespace ChessGame.Tests.Shared
+namespace ChessGame.Domain.Shared
 {
     public abstract class PieceBuilder<T> : IBuilder<T>
     {

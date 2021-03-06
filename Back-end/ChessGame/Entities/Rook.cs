@@ -1,4 +1,5 @@
 ﻿using ChessGame.Domain.Enums;
+using ChessGame.Domain.Game;
 using ChessGame.Domain.Shared;
 using ChessGame.Domain.Structs;
 using System.Linq;
