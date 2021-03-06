@@ -6,25 +6,25 @@ namespace ChessGame.Domain.Shared
 {
     public abstract class PieceBuilder<T> : IBuilder<T>
     {
-        protected static Position Position;
-        protected static EColor Color;
-        protected static Board Board;
+        protected static Position _position;
+        protected static EColor _color;
+        protected static Board _board;
 
         public PieceBuilder<T> WithPosition(Position position)
         {
-            Position = position;
+            _position = position;
             return this;
         }
 
         public PieceBuilder<T> WithColor(EColor color)
         {
-            Color = color;
+            _color = color;
             return this;
         }
 
         public PieceBuilder<T> WithBoard(Board board)
         {
-            Board = board;
+            _board = board;
             return this;
         }
 

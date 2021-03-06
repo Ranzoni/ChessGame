@@ -9,8 +9,21 @@ namespace ChessGame.Domain.Entities
 {
     public class Pawn : Piece
     {
-        public Pawn(Position position, EColor color, Board board) : base(position, color, board)
+        private int _lastRoundMoved;
+        private readonly Gameplay _gameplay;
+
+        public Pawn(Position position, EColor color, Board board, Gameplay gameplay) : base(position, color, board)
         {
+            _gameplay = gameplay;
+        }
+
+        public override bool Move(Position newPosition)
+        {
+            if (!base.Move(newPosition))
+                return false;
+
+            _lastRoundMoved = _gameplay.Round;
+            return true;
         }
 
         protected override bool SpecialMove(Position newPosition)
@@ -21,7 +34,9 @@ namespace ChessGame.Domain.Entities
             if (QuantityMove == 0 && Position.EqualsColumn(newPosition) && Math.Abs(Position.DifferenceLine(newPosition)) == 2 && !PositionWillJumpPiece(newPosition))
                 return true;
 
-            //Implementar movimento En Passant
+            var pawns = _board.Pieces.Where(p => p is Pawn && p.Color != Color).Select(p => (Pawn)p);
+            if (pawns.Any(p => p.IsEnPassant(this, newPosition)))
+                return true;
 
             return false;
         }
@@ -71,6 +86,20 @@ namespace ChessGame.Domain.Entities
             }
 
             return false;
+        }
+
+        private bool IsEnPassant(Pawn enemyPawn, Position enemyPawnNewPosition)
+        {
+            if (_lastRoundMoved != _gameplay.Round - 1)
+                return false;
+
+            if (!Position.EqualsLine(enemyPawn.Position) || Math.Abs(Position.DifferenceColumn(enemyPawn.Position)) != 1)
+                return false;
+
+            if (Math.Abs(enemyPawnNewPosition.DifferenceLine(Position)) != 1 || !enemyPawnNewPosition.EqualsColumn(Position))
+                return false;
+
+            return true;
         }
     }
 }

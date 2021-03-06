@@ -9,9 +9,9 @@ namespace ChessGame.Domain.Builder
     {
         public QueenBuilder()
         {
-            Position = new Position(EColumn.D, ELine.Four);
-            Color = EColor.Black;
-            Board = BoardBuilder.New().Build();
+            _position = new Position(EColumn.D, ELine.Four);
+            _color = EColor.Black;
+            _board = BoardBuilder.New().Build();
         }
 
         public static QueenBuilder New()
@@ -21,7 +21,7 @@ namespace ChessGame.Domain.Builder
 
         public override Queen Build()
         {
-            return new Queen(Position, Color, Board);
+            return new Queen(_position, _color, _board);
         }
     }
 }

@@ -6,20 +6,25 @@ using System.Linq;
 
 namespace ChessGame.Domain.Game
 {
-    public class Game
+    public class Gameplay
     {
         public Board Board { get; private set; }
         public Player PlayerOne { get; private set; }
         public Player PlayerTwo { get; private set; }
         public Player PlayerTurn { get; private set; }
+        public int Round { get; private set; }
 
-        public Game(Board board, Player playerOne, Player playerTwo)
+        public Gameplay(Board board, Player playerOne, Player playerTwo)
         {
             Board = board;
-            OrganizePieces();
             PlayerOne = playerOne;
             PlayerTurn = PlayerOne;
             PlayerTwo = playerTwo;
+        }
+
+        public void StartGame()
+        {
+            OrganizePieces();
         }
 
         public void MovePlayer(Position actualPosition, Position newPosition)

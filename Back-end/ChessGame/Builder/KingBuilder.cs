@@ -9,9 +9,9 @@ namespace ChessGame.Domain.Builder
     {
         public KingBuilder()
         {
-            Position = new Position(EColumn.D, ELine.Four);
-            Color = EColor.White;
-            Board = BoardBuilder.New().Build();
+            _position = new Position(EColumn.D, ELine.Four);
+            _color = EColor.White;
+            _board = BoardBuilder.New().Build();
         }
 
         public static KingBuilder New()
@@ -21,7 +21,7 @@ namespace ChessGame.Domain.Builder
 
         public override King Build()
         {
-            return new King(Position, Color, Board);
+            return new King(_position, _color, _board);
         }
     }
 }

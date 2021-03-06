@@ -20,7 +20,7 @@ namespace ChessGame.Domain.Shared
             _board = board;
         }
 
-        public bool Move(Position newPosition)
+        public virtual bool Move(Position newPosition)
         {
             if (!SpecialMove(newPosition) && !ValidMove(newPosition))
                 return false;

@@ -9,9 +9,9 @@ namespace ChessGame.Domain.Builder
     {
         public BishopBuilder()
         {
-            Position = new Position(EColumn.E, ELine.Three);
-            Color = EColor.White;
-            Board = BoardBuilder.New().Build();
+            _position = new Position(EColumn.E, ELine.Three);
+            _color = EColor.White;
+            _board = BoardBuilder.New().Build();
         }
 
         public static BishopBuilder New()
@@ -21,7 +21,7 @@ namespace ChessGame.Domain.Builder
 
         public override Bishop Build()
         {
-            return new Bishop(Position, Color, Board);
+            return new Bishop(_position, _color, _board);
         }
     }
 }

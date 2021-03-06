@@ -9,9 +9,9 @@ namespace ChessGame.Domain.Builder
     {
         public RookBuilder()
         {
-            Position = new Position(EColumn.A, ELine.One);
-            Color = EColor.White;
-            Board = BoardBuilder.New().Build();
+            _position = new Position(EColumn.A, ELine.One);
+            _color = EColor.White;
+            _board = BoardBuilder.New().Build();
         }
 
         public static RookBuilder New()
@@ -21,7 +21,7 @@ namespace ChessGame.Domain.Builder
 
         public override Rook Build()
         {
-            return new Rook(Position, Color, Board);
+            return new Rook(_position, _color, _board);
         }
     }
 }
