@@ -31,7 +31,15 @@ namespace ChessGame.Tests.Domain
                 new object[] { new Position(EColumn.E, ELine.Four), EColor.Black, new Position(EColumn.E, ELine.Four) },
                 new object[] { new Position(EColumn.C, ELine.Five), EColor.Black, new Position(EColumn.C, ELine.Five) },
                 new object[] { new Position(EColumn.D, ELine.Five), EColor.Black, new Position(EColumn.D, ELine.Five) },
-                new object[] { new Position(EColumn.E, ELine.Five), EColor.Black, new Position(EColumn.E, ELine.Five) }
+                new object[] { new Position(EColumn.E, ELine.Five), EColor.Black, new Position(EColumn.E, ELine.Five) },
+                new object[] { new Position(EColumn.B, ELine.Two), EColor.White, new Position(EColumn.C, ELine.Three) },
+                new object[] { new Position(EColumn.D, ELine.Two), EColor.White, new Position(EColumn.D, ELine.Three) },
+                new object[] { new Position(EColumn.F, ELine.Two), EColor.White, new Position(EColumn.E, ELine.Three) },
+                new object[] { new Position(EColumn.B, ELine.Four), EColor.White, new Position(EColumn.C, ELine.Four) },
+                new object[] { new Position(EColumn.F, ELine.Four), EColor.White, new Position(EColumn.E, ELine.Four) },
+                new object[] { new Position(EColumn.B, ELine.Six), EColor.White, new Position(EColumn.C, ELine.Five) },
+                new object[] { new Position(EColumn.D, ELine.Six), EColor.White, new Position(EColumn.D, ELine.Five) },
+                new object[] { new Position(EColumn.F, ELine.Six), EColor.White, new Position(EColumn.E, ELine.Five) }
             };
 
         public static IEnumerable<object[]> InvalidMove =>
@@ -65,7 +73,15 @@ namespace ChessGame.Tests.Domain
                new object[] { new Position(EColumn.E, ELine.Four), EColor.White, new Position(EColumn.E, ELine.Four) },
                new object[] { new Position(EColumn.C, ELine.Five), EColor.White, new Position(EColumn.C, ELine.Five) },
                new object[] { new Position(EColumn.D, ELine.Five), EColor.White, new Position(EColumn.D, ELine.Five) },
-               new object[] { new Position(EColumn.E, ELine.Five), EColor.White, new Position(EColumn.E, ELine.Five) }
+               new object[] { new Position(EColumn.E, ELine.Five), EColor.White, new Position(EColumn.E, ELine.Five) },
+               new object[] { new Position(EColumn.B, ELine.Two), EColor.Black, new Position(EColumn.C, ELine.Three) },
+               new object[] { new Position(EColumn.D, ELine.Two), EColor.Black, new Position(EColumn.D, ELine.Three) },
+               new object[] { new Position(EColumn.F, ELine.Two), EColor.Black, new Position(EColumn.E, ELine.Three) },
+               new object[] { new Position(EColumn.B, ELine.Four), EColor.Black, new Position(EColumn.C, ELine.Four) },
+               new object[] { new Position(EColumn.F, ELine.Four), EColor.Black, new Position(EColumn.E, ELine.Four) },
+               new object[] { new Position(EColumn.B, ELine.Six), EColor.Black, new Position(EColumn.C, ELine.Five) },
+               new object[] { new Position(EColumn.D, ELine.Six), EColor.Black, new Position(EColumn.D, ELine.Five) },
+               new object[] { new Position(EColumn.F, ELine.Six), EColor.Black, new Position(EColumn.E, ELine.Five) }
            };
 
         public static IEnumerable<object[]> ValidCastlingMove =>

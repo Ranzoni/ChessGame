@@ -75,14 +75,19 @@ namespace ChessGame.Domain.Entities
 
         protected override bool PositionWillJumpPiece(Position newPosition)
         {
-            var piecesOnWay = _board.Pieces.Where(p => p.Position.EqualsColumn(Position) && p != this);
-            foreach (var pieceOnWay in piecesOnWay)
+            if (Color == EColor.White)
             {
-                if (Color == EColor.White && newPosition.DifferenceLine(pieceOnWay.Position) >= 0)
-                    return true;
-
-                if (Color == EColor.Black && newPosition.DifferenceLine(pieceOnWay.Position) <= 0)
-                    return true;
+                var piecesOnWay = _board.Pieces.Where(p => p.Position.EqualsColumn(Position) && p.Position.DifferenceLine(Position) > 0);
+                foreach (var pieceOnWay in piecesOnWay)
+                    if (newPosition.DifferenceLine(pieceOnWay.Position) >= 0)
+                        return true;
+            }
+            else
+            {
+                var piecesOnWay = _board.Pieces.Where(p => p.Position.EqualsColumn(Position) && p.Position.DifferenceLine(Position) < 0);
+                foreach (var pieceOnWay in piecesOnWay)
+                    if (newPosition.DifferenceLine(pieceOnWay.Position) <= 0)
+                        return true;
             }
 
             return false;
