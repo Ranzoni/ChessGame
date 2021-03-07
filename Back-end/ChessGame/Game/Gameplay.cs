@@ -19,7 +19,6 @@ namespace ChessGame.Domain.Game
         {
             Board = board;
             PlayerOne = playerOne;
-            PlayerRound = PlayerOne;
             PlayerTwo = playerTwo;
         }
 
@@ -28,11 +27,12 @@ namespace ChessGame.Domain.Game
             Board.ClearBoard();
             Round = 0;
             OrganizePieces();
+            PlayerRound = PlayerOne;
         }
 
         public bool PlayerMove(Piece pieceToMove, Position newPosition)
         {
-            if (pieceToMove == null || pieceToMove.Color != PlayerRound.Color)
+            if (pieceToMove == null || pieceToMove.Color != PlayerRound.Color || HasKingInCheckmate())
                 return false;
 
             var enemyPieceOnPosition = Board.Pieces.Where(p => p.Color != pieceToMove.Color && p.Position.Equals(newPosition)).FirstOrDefault();
@@ -52,6 +52,21 @@ namespace ChessGame.Domain.Game
         public bool IsCheck(King king)
         {
             return Board.Pieces.Any(p => p.Color != king.Color && p.AvailableMovements().Contains(king.Position));
+        }
+
+        public bool IsCheckmate(King king)
+        {
+            return IsCheck(king) && king.AvailableMovements().Count() == 0;
+        }
+
+        private bool HasKingInCheckmate()
+        {
+            var kings = Board.Pieces.Where(p => p is King).Select(p => (King)p);
+            foreach (var king in kings)
+                if (IsCheckmate(king))
+                    return true;
+
+            return false;
         }
 
         private void OrganizePieces()

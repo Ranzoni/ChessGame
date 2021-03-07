@@ -48,6 +48,9 @@ namespace ChessGame.Domain.Entities
             if (Math.Abs(Position.DifferenceColumn(newPosition)) > 1 || Math.Abs(Position.DifferenceLine(newPosition)) > 1)
                 return false;
 
+            if (WillBeInCheck(newPosition))
+                return false;
+
             return true;
         }
 
@@ -94,6 +97,11 @@ namespace ChessGame.Domain.Entities
             }
 
             return false;
+        }
+
+        private bool WillBeInCheck(Position newPosition)
+        {
+            return  _board.Pieces.Any(p => p.Color != Color && p.AvailableMovements().Contains(newPosition));
         }
     }
 }
