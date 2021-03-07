@@ -28,7 +28,7 @@ namespace ChessGame.Tests.Game
             board.ClearBoard();
             var pawn = PawnBuilder.New().Build();
             board.AddPiece(pawn);
-            var existisPieceOnBoard = board.GetPieces().Any(p => p.Equals(pawn));
+            var existisPieceOnBoard = board.Pieces.Any(p => p.Equals(pawn));
             Assert.True(existisPieceOnBoard);
         }
 
@@ -40,8 +40,8 @@ namespace ChessGame.Tests.Game
             var pawn = PawnBuilder.New().WithBoard(board).Build();
             board.AddPiece(pawn);
             board.KillPiece(pawn);
-            var removedPiecefromBoard = !board.GetPieces().Any(p => p.Equals(pawn));
-            var pieceIsDead = board.GetDeadPieces().Any(p => p.Equals(pawn));
+            var removedPiecefromBoard = !board.Pieces.Any(p => p.Equals(pawn));
+            var pieceIsDead = board.DeadPieces.Any(p => p.Equals(pawn));
             Assert.True(removedPiecefromBoard && pieceIsDead);
         }
 
@@ -55,7 +55,7 @@ namespace ChessGame.Tests.Game
             board.AddPiece(pieceToAddOnBoard);
             var newPiece = PawnBuilder.New().WithPosition(positionPieceToAddOnBoard).WithColor(colorPieceToAddOnBoard).Build(); ;
             board.AddPiece(newPiece);
-            var notExistisPieceOnBoard = !board.GetPieces().Any(p => p.Equals(newPiece));
+            var notExistisPieceOnBoard = !board.Pieces.Any(p => p.Equals(newPiece));
             Assert.True(notExistisPieceOnBoard);
         }
 
@@ -75,7 +75,7 @@ namespace ChessGame.Tests.Game
             var board = BoardBuilder.New().Build();
             var pieceToAddOnBoard = PawnBuilder.New().WithPosition(positionPieceToAddOnBoard).WithColor(colorPieceToAddOnBoard).Build();
             board.KillPiece(pieceToAddOnBoard);
-            var pieceIsNotDead = !board.GetDeadPieces().Any(p => p.Equals(pieceToAddOnBoard));
+            var pieceIsNotDead = !board.DeadPieces.Any(p => p.Equals(pieceToAddOnBoard));
             Assert.True(pieceIsNotDead);
         }
 
@@ -103,6 +103,24 @@ namespace ChessGame.Tests.Game
 
             var boardWasClean = board.Pieces.Count == 0 && board.DeadPieces.Count == 0;
             Assert.True(boardWasClean);
+        }
+
+        [Fact]
+        public void ShouldGetPieceFromPosition()
+        {
+            var board = BoardBuilder.New().Build();
+            var position = new Position(EColumn.H, ELine.Three);
+            var queen = QueenBuilder.New().WithPosition(position).WithBoard(board).Build();
+            board.AddPiece(queen);
+            Assert.Equal(board.GetPieceFromPosition(position), queen);
+        }
+
+        [Fact]
+        public void ShouldGetNullFromPosition()
+        {
+            var board = BoardBuilder.New().Build();
+            var position = new Position(EColumn.H, ELine.Three);
+            Assert.Null(board.GetPieceFromPosition(position));
         }
     }
 }

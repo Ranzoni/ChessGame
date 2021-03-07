@@ -163,5 +163,13 @@ namespace ChessGame.Tests.Domain
             var notMoved = !queen.Move(newPosition);
             Assert.True(notMoved && queen.Position.Equals(actualPosition) && queen.QuantityMove == 0);
         }
+
+        [Theory]
+        [MemberData(nameof(ValidMove))]
+        public void ShouldReturnAvailableMovements(Position position)
+        {
+            var queen = QueenBuilder.New().Build();
+            Assert.Contains(position, queen.AvailableMovements());
+        }
     }
 }

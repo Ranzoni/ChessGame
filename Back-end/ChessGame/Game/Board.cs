@@ -43,16 +43,6 @@ namespace ChessGame.Domain.Game
             }
         }
 
-        public IEnumerable<Piece> GetPieces()
-        {
-            return _pieces;
-        }
-
-        public IEnumerable<Piece> GetDeadPieces()
-        {
-            return _deadPieces;
-        }
-
         public void ClearBoard()
         {
             _pieces.Clear();
