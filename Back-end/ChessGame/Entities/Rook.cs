@@ -12,12 +12,6 @@ namespace ChessGame.Domain.Entities
         {
         }
 
-        protected override bool SpecialMove(Position newPosition)
-        {
-            //Implementar movimento ROCK
-            return base.SpecialMove(newPosition);
-        }
-
         protected override bool ValidMove(Position newPosition)
         {
             if (!base.ValidMove(newPosition))

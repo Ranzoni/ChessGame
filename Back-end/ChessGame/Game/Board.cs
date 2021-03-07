@@ -1,4 +1,5 @@
 ﻿using ChessGame.Domain.Shared;
+using ChessGame.Domain.Structs;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -56,6 +57,11 @@ namespace ChessGame.Domain.Game
         {
             _pieces.Clear();
             _deadPieces.Clear();
+        }
+
+        public Piece GetPieceFromPosition(Position positionPiece)
+        {
+            return Pieces.Where(p => p.Position.Equals(positionPiece)).FirstOrDefault();
         }
     }
 }

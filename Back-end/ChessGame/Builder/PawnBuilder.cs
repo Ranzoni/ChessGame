@@ -8,6 +8,8 @@ namespace ChessGame.Domain.Builder
 {
     public class PawnBuilder : PieceBuilder<Pawn>
     {
+        private Gameplay _gameplay = GameplayBuilder.New().Build();
+
         public PawnBuilder()
         {
             _position = new Position(EColumn.B, ELine.Two);
@@ -20,9 +22,15 @@ namespace ChessGame.Domain.Builder
             return new PawnBuilder();
         }
 
+        public PawnBuilder WithGameplay(Gameplay gameplay)
+        {
+            _gameplay = gameplay;
+            return this;
+        }
+
         public override Pawn Build()
         {
-            return new Pawn(_position, _color, _board, GameplayBuilder.New().Build());
+            return new Pawn(_position, _color, _board, _gameplay);
         }
     }
 }

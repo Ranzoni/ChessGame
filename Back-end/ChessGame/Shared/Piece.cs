@@ -1,6 +1,8 @@
 ﻿using ChessGame.Domain.Enums;
 using ChessGame.Domain.Game;
 using ChessGame.Domain.Structs;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ChessGame.Domain.Shared
@@ -9,9 +11,9 @@ namespace ChessGame.Domain.Shared
     {
         protected readonly Board _board;
 
-        public Position Position { get; private set; }
+        public Position Position { get; protected set; }
         public EColor Color { get; private set; }
-        public int QuantityMove { get; private set; }
+        public int QuantityMove { get; protected set; }
 
         public Piece(Position position, EColor color, Board board)
         {
@@ -49,6 +51,21 @@ namespace ChessGame.Domain.Shared
         protected virtual bool PositionWillJumpPiece(Position newPosition)
         {
             return false;
+        }
+
+        public IEnumerable<Position> AvailableMovements()
+        {
+            var listAvaiblePosition = new List<Position>();
+            foreach (var column in Enum.GetValues(typeof(EColumn)).Cast<EColumn>())
+                foreach (var line in Enum.GetValues(typeof(ELine)).Cast<ELine>())
+                {
+                    var position = new Position(column, line);
+                    var move = SpecialMove(position) || ValidMove(position);
+                    if (move)
+                        listAvaiblePosition.Add(position);
+                }
+
+            return listAvaiblePosition;
         }
     }
 }
