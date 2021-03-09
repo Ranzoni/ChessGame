@@ -60,12 +60,17 @@ namespace ChessGame.Domain.Shared
                 foreach (var line in Enum.GetValues(typeof(ELine)).Cast<ELine>())
                 {
                     var position = new Position(column, line);
-                    var move = SpecialMove(position) || ValidMove(position);
+                    var move = MoveIsValid(position);
                     if (move)
                         listAvaiblePosition.Add(position);
                 }
 
             return listAvaiblePosition;
+        }
+
+        public bool MoveIsValid(Position position)
+        {
+            return SpecialMove(position) || ValidMove(position);
         }
     }
 }

@@ -7,13 +7,19 @@ namespace ChessGame.Domain.Builder
 {
     public class GameplayBuilder : IBuilder<Gameplay>
     {
-        private readonly Board _board = BoardBuilder.New().Build();
+        private Board _board = BoardBuilder.New().Build();
         private readonly Player _playerOne = PlayerBuilder.New().Build();
         private readonly Player _playerTwo = PlayerBuilder.New().WithName("Jogador dois").WithColor(EColor.Black).Build();
 
         public static GameplayBuilder New()
         {
             return new GameplayBuilder();
+        }
+
+        public GameplayBuilder WithBoard(Board board)
+        {
+            _board = board;
+            return this;
         }
 
         public Gameplay Build()

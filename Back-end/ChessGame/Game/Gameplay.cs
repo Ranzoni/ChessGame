@@ -27,7 +27,7 @@ namespace ChessGame.Domain.Game
         public void StartGame()
         {
             _board.ClearBoard();
-            Round = 0;
+            Round = 1;
             OrganizePieces();
             PlayerRound = PlayerOne;
             _started = true;
@@ -59,7 +59,7 @@ namespace ChessGame.Domain.Game
 
         public bool IsCheck(King king)
         {
-            return _board.Pieces.Any(p => p.Color != king.Color && p.AvailableMovements().Contains(king.Position));
+            return _board.Pieces.Any(p => p.Color != king.Color && p.MoveIsValid(king.Position));
         }
 
         public bool IsCheckmate(King king)

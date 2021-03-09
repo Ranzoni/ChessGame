@@ -11,6 +11,7 @@ namespace ChessGame.Domain.Entities
     {
         private int _lastRoundMoved;
         private readonly Gameplay _gameplay;
+        private Pawn _pawnToKillEnPassant;
 
         public Pawn(Position position, EColor color, Board board, Gameplay gameplay) : base(position, color, board)
         {
@@ -19,9 +20,11 @@ namespace ChessGame.Domain.Entities
 
         public override bool Move(Position newPosition)
         {
+            _pawnToKillEnPassant = null;
             if (!base.Move(newPosition))
                 return false;
 
+            _board.KillPiece(_pawnToKillEnPassant);
             _lastRoundMoved = _gameplay.Round;
             return true;
         }
@@ -35,7 +38,8 @@ namespace ChessGame.Domain.Entities
                 return true;
 
             var pawns = _board.Pieces.Where(p => p is Pawn && p.Color != Color).Select(p => (Pawn)p);
-            if (pawns.Any(p => p.IsEnPassant(this, newPosition)))
+            _pawnToKillEnPassant = pawns.Where(p => p.IsEnPassant(this, newPosition)).FirstOrDefault();
+            if (_pawnToKillEnPassant != null)
                 return true;
 
             return false;
@@ -95,13 +99,19 @@ namespace ChessGame.Domain.Entities
 
         private bool IsEnPassant(Pawn enemyPawn, Position enemyPawnNewPosition)
         {
-            if (_lastRoundMoved != _gameplay.Round - 1)
+            if (QuantityMove != 1 || _lastRoundMoved != _gameplay.Round - 1)
+                return false;
+
+            if (!(Color == EColor.White && Position.Line == ELine.Four) && !(Color == EColor.Black && Position.Line == ELine.Five))
                 return false;
 
             if (!Position.EqualsLine(enemyPawn.Position) || Math.Abs(Position.DifferenceColumn(enemyPawn.Position)) != 1)
                 return false;
 
-            if (Math.Abs(enemyPawnNewPosition.DifferenceLine(Position)) != 1 || !enemyPawnNewPosition.EqualsColumn(Position))
+            if (!enemyPawnNewPosition.EqualsColumn(Position))
+                return false;
+
+            if (!(Color == EColor.White && enemyPawnNewPosition.DifferenceLine(Position) == -1) && !(Color == EColor.Black && enemyPawnNewPosition.DifferenceLine(Position) == 1))
                 return false;
 
             return true;

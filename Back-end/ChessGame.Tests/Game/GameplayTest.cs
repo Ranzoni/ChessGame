@@ -1,4 +1,5 @@
 ﻿using ChessGame.Domain.Builder;
+using ChessGame.Domain.Entities;
 using ChessGame.Domain.Enums;
 using ChessGame.Domain.Structs;
 using Xunit;
@@ -64,7 +65,7 @@ namespace ChessGame.Tests.Game
             var pawn = gameplay.GetPieceFromPosition(new Position(EColumn.C, ELine.Two));
             gameplay.PlayerMove(pawn, new Position(EColumn.C, ELine.Four));
 
-            Assert.True(gameplay.Round == 1);
+            Assert.True(gameplay.Round == 2);
         }
 
         [Fact]
@@ -113,6 +114,33 @@ namespace ChessGame.Tests.Game
             var notMoved = !gameplay.PlayerMove(knight, new Position(EColumn.F, ELine.Three));
 
             Assert.True(notMoved && knight.Position.Equals(actualPosition));
+        }
+
+        [Fact]
+        public void ShouldWhiteKingInCheck()
+        {
+            var gameplay = GameplayBuilder.New().Build();
+            gameplay.StartGame();
+
+            gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.E, ELine.Two)), new Position(EColumn.E, ELine.Four));
+            gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.D, ELine.Seven)), new Position(EColumn.D, ELine.Six));
+            gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.F, ELine.One)), new Position(EColumn.B, ELine.Five));
+            var king = (King)gameplay.GetPieceFromPosition(new Position(EColumn.E, ELine.Eight));
+            Assert.True(gameplay.IsCheck(king));
+        }
+
+        [Fact]
+        public void ShouldBlackKingInCheck()
+        {
+            var gameplay = GameplayBuilder.New().Build();
+            gameplay.StartGame();
+
+            gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.D, ELine.Two)), new Position(EColumn.D, ELine.Three));
+            gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.E, ELine.Seven)), new Position(EColumn.E, ELine.Six));
+            gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.D, ELine.Three)), new Position(EColumn.D, ELine.Four));
+            gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.F, ELine.Eight)), new Position(EColumn.B, ELine.Four));
+            var king = (King)gameplay.GetPieceFromPosition(new Position(EColumn.E, ELine.One));
+            Assert.True(gameplay.IsCheck(king));
         }
     }
 }
