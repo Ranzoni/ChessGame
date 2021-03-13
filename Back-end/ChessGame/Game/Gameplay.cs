@@ -45,9 +45,9 @@ namespace ChessGame.Domain.Game
             if (!ExecuteMove(pieceToMove, newPosition))
                 return false;
 
-            if (KingInCheckmate(pieceToMove.Color))
+            if (KingWillBeInCheck(pieceToMove.Color))
             {
-                pieceToMove.UndoMove();
+                UndoMove();
                 return false;
             }
 
@@ -75,7 +75,7 @@ namespace ChessGame.Domain.Game
             return true;
         }
 
-        public void UndoMove()
+        private void UndoMove()
         {
             if (_lastPieceMoved == null)
                 return;
@@ -112,10 +112,10 @@ namespace ChessGame.Domain.Game
             return true;
         }
 
-        private bool KingInCheckmate(EColor color)
+        private bool KingWillBeInCheck(EColor color)
         {
             var king = _board.Pieces.Where(p => p is King && p.Color == color).Select(p => (King)p).FirstOrDefault();
-            if (IsCheckmate(king))
+            if (IsCheck(king) && PlayerRound.Color == color)
                 return true;
 
             return false;

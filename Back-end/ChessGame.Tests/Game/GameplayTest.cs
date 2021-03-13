@@ -118,22 +118,31 @@ namespace ChessGame.Tests.Game
         }
 
         [Fact]
-        public void ShouldUndoMovePlayer()
+        public void ShouldNotMoveWhenNewPositionIsInvalid()
         {
-            var board = BoardBuilder.New().Build();
-            var gameplay = GameplayBuilder.New().WithBoard(board).Build();
+            var gameplay = GameplayBuilder.New().Build();
             gameplay.StartGame();
 
-            var bishop = gameplay.GetPieceFromPosition(new Position(EColumn.C, ELine.One));
-            gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.D, ELine.Two)), new Position(EColumn.D, ELine.Four));
+            var pawn = gameplay.GetPieceFromPosition(new Position(EColumn.E, ELine.Two));
+            var actualPosition = pawn.Position;
+            var notMoved = !gameplay.PlayerMove(pawn, new Position(EColumn.E, ELine.Five));
+            Assert.True(notMoved && pawn.Position.Equals(actualPosition) && gameplay.PlayerRound == gameplay.PlayerOne && gameplay.Round == 1);
+        }
+        
+        [Fact]
+        public void ShouldNotMoveWhenKingWillBeInCheck()
+        {
+            var gameplay = GameplayBuilder.New().Build();
+            gameplay.StartGame();
+
+            gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.E, ELine.Two)), new Position(EColumn.E, ELine.Four));
             gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.A, ELine.Seven)), new Position(EColumn.A, ELine.Six));
-            gameplay.PlayerMove(bishop, new Position(EColumn.G, ELine.Five));
-            gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.H, ELine.Seven)), new Position(EColumn.H, ELine.Six));
-            var enemyPawn = gameplay.GetPieceFromPosition(new Position(EColumn.E, ELine.Seven));
-            var lastPositionBishop = bishop.Position;
-            var moved = gameplay.PlayerMove(bishop, enemyPawn.Position);
-            gameplay.UndoMove();
-            Assert.True(moved && board.Pieces.Any(p => p == enemyPawn) && bishop.Position.Equals(lastPositionBishop));
+            gameplay.PlayerMove(gameplay.GetPieceFromPosition(new Position(EColumn.D, ELine.One)), new Position(EColumn.H, ELine.Five));
+            var pawn = gameplay.GetPieceFromPosition(new Position(EColumn.F, ELine.Seven));
+            var actualPosition = pawn.Position;
+            var notMoved = !gameplay.PlayerMove(pawn, new Position(EColumn.F, ELine.Six));
+            var king = (King)gameplay.GetPieceFromPosition(new Position(EColumn.E, ELine.Eight));
+            Assert.True(notMoved && !gameplay.IsCheck(king) && pawn.Position.Equals(actualPosition));
         }
 
         [Fact]
