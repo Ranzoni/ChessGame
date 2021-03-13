@@ -341,5 +341,18 @@ namespace ChessGame.Tests.Domain
             var notMoved = !gameplay.PlayerMove(enemyPawn, new Position(EColumn.E, ELine.Six));
             Assert.True(notMoved && enemyPawn.Position.Equals(posBeforeEnPasasnt) && !board.DeadPieces.Any(p => p == pawn));
         }
+
+        [Fact]
+        public void ShouldUndoMove()
+        {
+            var board = BoardBuilder.New().Build();
+            board.ClearBoard();
+            var firstPosition = new Position(EColumn.B, ELine.Two);
+            var pawn = PawnBuilder.New().WithPosition(firstPosition).WithBoard(board).Build();
+            board.AddPiece(pawn);
+            var moved = pawn.Move(new Position(EColumn.B, ELine.Four));
+            pawn.UndoMove();
+            Assert.True(moved && pawn.Position.Equals(firstPosition) && pawn.QuantityMove == 0);
+        }
     }
 }

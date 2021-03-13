@@ -11,6 +11,8 @@ namespace ChessGame.Domain.Game
     {
         private readonly Board _board;
         private bool _started;
+        private Piece _lastPieceMoved;
+        private Piece _lastPieceKilled;
 
         public Player PlayerOne { get; private set; }
         public Player PlayerTwo { get; private set; }
@@ -30,26 +32,56 @@ namespace ChessGame.Domain.Game
             Round = 1;
             OrganizePieces();
             PlayerRound = PlayerOne;
+            _lastPieceMoved = null;
+            _lastPieceKilled = null;
             _started = true;
         }
 
         public bool PlayerMove(Piece pieceToMove, Position newPosition)
         {
-            if (!_started || pieceToMove == null || pieceToMove.Color != PlayerRound.Color || HasKingInCheckmate())
+            if (!_started || pieceToMove == null || pieceToMove.Color != PlayerRound.Color)
                 return false;
 
-            if (!pieceToMove.Move(newPosition))
+            if (!ExecuteMove(pieceToMove, newPosition))
                 return false;
+
+            if (KingInCheckmate(pieceToMove.Color))
+            {
+                pieceToMove.UndoMove();
+                return false;
+            }
 
             SetPlayerRound();
-
-            var enemyPieceOnPosition = _board.Pieces.Where(p => p.Color != pieceToMove.Color && p.Position.Equals(newPosition)).FirstOrDefault();
-            if (enemyPieceOnPosition != null)
-                _board.KillPiece(enemyPieceOnPosition);
 
             Round++;
 
             return true;
+        }
+
+        private bool ExecuteMove(Piece piece, Position newPosition)
+        {
+            if (!piece.Move(newPosition))
+                return false;
+
+            var enemyPieceOnPosition = _board.Pieces.Where(p => p.Color != piece.Color && p.Position.Equals(newPosition)).FirstOrDefault();
+            if (enemyPieceOnPosition != null)
+            {
+                _board.KillPiece(enemyPieceOnPosition);
+                _lastPieceKilled = enemyPieceOnPosition;
+            }
+
+            _lastPieceMoved = piece;
+
+            return true;
+        }
+
+        public void UndoMove()
+        {
+            if (_lastPieceMoved == null)
+                return;
+
+            _lastPieceMoved.UndoMove();
+            _board.AddPiece(_lastPieceKilled);
         }
 
         public Piece GetPieceFromPosition(Position position)
@@ -64,15 +96,27 @@ namespace ChessGame.Domain.Game
 
         public bool IsCheckmate(King king)
         {
-            return IsCheck(king) && king.AvailableMovements().Count() == 0;
+            if (!IsCheck(king))
+                return false;
+
+            foreach (var piece in _board.Pieces.Where(p => p.Color == king.Color))
+                foreach (var position in piece.AvailableMovements())
+                {
+                    ExecuteMove(piece, position);
+                    var notIsCheck = !IsCheck(king);
+                    UndoMove();
+                    if (notIsCheck)
+                        return false;
+                }
+
+            return true;
         }
 
-        private bool HasKingInCheckmate()
+        private bool KingInCheckmate(EColor color)
         {
-            var kings = _board.Pieces.Where(p => p is King).Select(p => (King)p);
-            foreach (var king in kings)
-                if (IsCheckmate(king))
-                    return true;
+            var king = _board.Pieces.Where(p => p is King && p.Color == color).Select(p => (King)p).FirstOrDefault();
+            if (IsCheckmate(king))
+                return true;
 
             return false;
         }

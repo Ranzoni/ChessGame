@@ -10,6 +10,7 @@ namespace ChessGame.Domain.Shared
     public abstract class Piece
     {
         protected readonly Board _board;
+        private Position _lastPosition;
 
         public Position Position { get; protected set; }
         public EColor Color { get; private set; }
@@ -20,6 +21,7 @@ namespace ChessGame.Domain.Shared
             Position = position;
             Color = color;
             _board = board;
+            _lastPosition = position;
         }
 
         public virtual bool Move(Position newPosition)
@@ -28,7 +30,15 @@ namespace ChessGame.Domain.Shared
                 return false;
 
             QuantityMove++;
+            _lastPosition = Position;
             Position = newPosition;
+            return true;
+        }
+
+        public bool UndoMove()
+        {
+            QuantityMove--;
+            Position = _lastPosition;
             return true;
         }
 
