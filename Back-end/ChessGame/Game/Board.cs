@@ -53,5 +53,16 @@ namespace ChessGame.Domain.Game
         {
             return Pieces.Where(p => p.Position.Equals(positionPiece)).FirstOrDefault();
         }
+
+        public void ExchangePieceForAnother(Piece actualPiece, Piece anotherPiece)
+        {
+            if (!_pieces.Any(p => p == actualPiece) || !_deadPieces.Any(p => p == anotherPiece) || actualPiece.Color != anotherPiece.Color)
+                return;
+
+            KillPiece(actualPiece);
+            _deadPieces.Remove(anotherPiece);
+            var newPiece = Utils.GetBuildedPieceFromAnother(anotherPiece, actualPiece.Position, anotherPiece.Color, this);
+            AddPiece(newPiece);
+        }
     }
 }

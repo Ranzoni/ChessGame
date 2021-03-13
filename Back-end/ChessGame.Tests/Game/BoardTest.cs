@@ -122,5 +122,20 @@ namespace ChessGame.Tests.Game
             var position = new Position(EColumn.H, ELine.Three);
             Assert.Null(board.GetPieceFromPosition(position));
         }
+
+        [Fact]
+        public void ShouldExchangePieceForAnother()
+        {
+            var board = BoardBuilder.New().Build();
+            var pawn = PawnBuilder.New().WithColor(EColor.White).WithBoard(board).Build();
+            var position = pawn.Position;
+            board.AddPiece(pawn);
+            var knight = KnightBuilder.New().WithColor(EColor.White).WithBoard(board).Build();
+            board.AddPiece(knight);
+            board.KillPiece(knight);
+            board.ExchangePieceForAnother(pawn, knight);
+            var newKnight = board.GetPieceFromPosition(position);
+            Assert.True(newKnight != null && newKnight.Position.Equals(position) && !board.Pieces.Any(p => p == knight) && !board.DeadPieces.Any(p => p == knight) && board.DeadPieces.Any(p => p == pawn));
+        }
     }
 }

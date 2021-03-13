@@ -3,6 +3,7 @@ using ChessGame.Domain.Entities;
 using ChessGame.Domain.Enums;
 using ChessGame.Domain.Shared;
 using ChessGame.Domain.Structs;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ChessGame.Domain.Game
@@ -39,7 +40,7 @@ namespace ChessGame.Domain.Game
 
         public bool PlayerMove(Piece pieceToMove, Position newPosition)
         {
-            if (!_started || pieceToMove == null || pieceToMove.Color != PlayerRound.Color)
+            if (!_started || pieceToMove == null || pieceToMove.Color != PlayerRound.Color || HasKingInCheckmate())
                 return false;
 
             if (!ExecuteMove(pieceToMove, newPosition))
@@ -121,6 +122,16 @@ namespace ChessGame.Domain.Game
             return false;
         }
 
+        private bool HasKingInCheckmate()
+        {
+            var kings = _board.Pieces.Where(p => p is King).Select(p => (King)p);
+            foreach (var king in kings)
+                if (IsCheckmate(king))
+                    return true;
+
+            return false;
+        }
+
         private void OrganizePieces()
         {
             _board.AddPiece(PawnBuilder.New().WithGameplay(this).WithPosition(new Position(EColumn.A, ELine.Two)).WithColor(EColor.White).WithBoard(_board).Build());
@@ -159,10 +170,31 @@ namespace ChessGame.Domain.Game
 
         private void SetPlayerRound()
         {
-            if (PlayerRound == PlayerOne)
-                PlayerRound = PlayerTwo;
-            else
-                PlayerRound = PlayerOne;
+            PlayerRound = PlayerRound == PlayerOne ? PlayerTwo : PlayerOne;
+        }
+
+        public void ExchangePawnForAnotherPiece(Pawn pawn, Piece pieceToExchange)
+        {
+            if (pieceToExchange is Pawn && PawnIsEndOfBoard(pawn))
+                return;
+
+            _board.ExchangePieceForAnother(pawn, pieceToExchange);
+        }
+
+        private bool PawnIsEndOfBoard(Pawn pawn)
+        {
+            if (pawn.Color == EColor.White && pawn.Position.Line == ELine.Eight)
+                return true;
+
+            if (pawn.Color == EColor.Black && pawn.Position.Line == ELine.One)
+                return true;
+
+            return false;
+        }
+
+        public IEnumerable<Piece> GetDeadPieces(EColor color)
+        {
+            return _board.DeadPieces.Where(p => p.Color == color);
         }
     }
 }
