@@ -103,5 +103,10 @@ namespace ChessGame.Domain.Entities
         {
             return Position.EqualsColumn(newPosition) || Position.EqualsLine(newPosition);
         }
+
+        public override string ToString()
+        {
+            return "D";
+        }
     }
 }

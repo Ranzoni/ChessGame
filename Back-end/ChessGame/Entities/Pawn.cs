@@ -116,5 +116,10 @@ namespace ChessGame.Domain.Entities
 
             return true;
         }
+
+        public override string ToString()
+        {
+            return "P";
+        }
     }
 }

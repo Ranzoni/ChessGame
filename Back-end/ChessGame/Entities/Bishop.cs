@@ -50,5 +50,10 @@ namespace ChessGame.Domain.Entities
 
             return false;
         }
+
+        public override string ToString()
+        {
+            return "B";
+        }
     }
 }
