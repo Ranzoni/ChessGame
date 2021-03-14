@@ -23,26 +23,25 @@ namespace ChessGame.Console
 
                 var kingInCheck = false;
                 var kingInCheckmate = false;
+                string mensagem = null;
                 while (!kingInCheckmate)
                 {
-                    DefineDisplay(gameplay.Board, kingInCheck);
+                    DefineDisplay(gameplay.Board, kingInCheck, null, mensagem);
 
                     var piece = PlayerRoundDefinePieceToMove(gameplay);
-                    while (piece == null || piece.Color != gameplay.PlayerRound.Color || piece.AvailableMovements().Count() == 0)
+                    if (piece == null || piece.Color != gameplay.PlayerRound.Color || piece.AvailableMovements().Count() == 0)
                     {
-                        DefineDisplay(gameplay.Board, kingInCheck);
-                        System.Console.WriteLine("Não existe peça sua com movimentos válidos na posição escolhida!");
-                        piece = PlayerRoundDefinePieceToMove(gameplay);
+                        mensagem = "Não existe peça sua com movimentos válidos na posição escolhida!";
+                        continue;
                     }
 
-                    var moved = false;
-                    while (!moved)
+                    DefineDisplay(gameplay.Board, kingInCheck, piece.AvailableMovements());
+                    var newPosition = PlayerRoundDefineNewPosition();
+                    var moved = gameplay.PlayerMove(piece, newPosition);
+                    if (!moved)
                     {
-                        DefineDisplay(gameplay.Board, kingInCheck, piece.AvailableMovements());
-                        var newPosition = PlayerRoundDefineNewPosition();
-                        moved = gameplay.PlayerMove(piece, newPosition);
-                        if (!moved)
-                            System.Console.WriteLine("A nova posição escolhida para a peça é inválida!");
+                        mensagem = "A nova posição escolhida para a peça é inválida!";
+                        continue;
                     }
 
                     kingInCheckmate = HasKingInCheckmate(gameplay);
@@ -173,13 +172,14 @@ namespace ChessGame.Console
             return System.Console.ReadLine().ToUpper();
         }
 
-        private static void DefineDisplay(Board board, bool inCheck, IEnumerable<Position> availablePositions = null)
+        private static void DefineDisplay(Board board, bool inCheck, IEnumerable<Position> availablePositions = null, string message = null)
         {
             Screen.DisplayBoard(board, availablePositions);
             if (inCheck)
             {
                 System.Console.WriteLine();
                 System.Console.WriteLine("Rei em cheque!");
+                System.Console.WriteLine(message);
             }
         }
     }
