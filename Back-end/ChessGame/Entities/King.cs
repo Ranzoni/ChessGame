@@ -17,9 +17,7 @@ namespace ChessGame.Domain.Entities
         }
 
         public override bool Move(Position newPosition)
-        {
-            _infoRookToCasttling.Clear();
-
+        {        
             if (!SpecialMove(newPosition) && !ValidMove(newPosition))
                 return false;
 
@@ -37,6 +35,7 @@ namespace ChessGame.Domain.Entities
 
         protected override bool SpecialMove(Position newPosition)
         {
+            _infoRookToCasttling.Clear();
             return IsCastling(newPosition);
         }
 
