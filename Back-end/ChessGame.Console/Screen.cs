@@ -1,9 +1,7 @@
 ﻿using ChessGame.Domain.Enums;
 using ChessGame.Domain.Game;
-using ChessGame.Domain.Shared;
 using ChessGame.Domain.Structs;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 

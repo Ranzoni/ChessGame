@@ -64,6 +64,7 @@ namespace ChessGame.Domain.Game
             if (!piece.Move(newPosition))
                 return false;
 
+            _lastPieceKilled = null;
             var enemyPieceOnPosition = Board.Pieces.Where(p => p.Color != piece.Color && p.Position.Equals(newPosition)).FirstOrDefault();
             if (enemyPieceOnPosition != null)
             {
